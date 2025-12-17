@@ -1,0 +1,78 @@
+let's Say Created a Compartment using Terraform but you accidentally deleted it from OCI UI:
+while executing tf commands via cli:-> Terraform state will mismatch and throw errors:
+to fix this:
+case i: execute:
+       terraform state rm oci_identity_compartment.my_compartment
+case ii:	   
+If you recreated the compartment via UI and want Terraform to track it:
+       terraform import oci_identity_compartment.my_compartment <compartment_ocid>
+	   
+	   
+--------------------------------------------------------------------------------------------------
+
+Here is how this fits together in VS Code:
+Install oci-cli on windows:
+ $ oci --version
+# 3.71.1
+
+Inegration between tf & O-CLI via vsc 
+
+$ oci iam region list
+If this works, Terraform will also work.
+
+~/.oci/config --->Terraform and OCI CLI must see the same config file.
+
+Remove Existing OCI CLI Configuration (Windows):
+Remove-Item -Recurse -Force C:\Users\dilip\.oci
+
+FROM VSCODE:
+Step 1: REMOVE IF any:
+Remove-Item -Recurse -Force C:\Users\dilip\.oci
+
+$oci setup config
+
+You will be prompted for:
+
+Tenancy OCID
+User OCID
+Region (e.g. ap-hyderabad-1)
+API key generation → choose Yes
+
+API keys:
+C:\Users\dilip\.oci\mykey.pem
+C:\Users\dilip\.oci\mykey_public.pem
+
+Step 3: Upload Public Key in OCI Console
+OCI Console → Profile → User Settings
+API Keys → Add API Key
+
+Paste contents of: oci_api_key_public.pem
+
+to verify: oci iam region list
+output: [list of regions]
+
+C:\Users\dilip\.oci\config  →   [DEFAULT]
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaa7m5dx7vlxsezy7lqatrdkotyw7hjy236j27zfmzzzcunf5d7oyja
+fingerprint=8c:f9:ba:0b:17:85:64:17:3c:fd:f6:d3:d9:05:3d:9e
+key_file=C:\Users\dilip\jks\mykey.pem
+tenancy=ocid1.tenancy.oc1..aaaaaaaamfoedu4tzc7d5nnvd6epjey64j26bc5uqdjxoiqro774bjgb2xoq
+region=ap-hyderabad-1
+
+----------------------------------------------------------------------------------------------
+Creating SSH Keys:
+ssh-keygen -t rsa -b 4096 -f C:\Users\dilip\.ssh\oci_vm
+
+C:\Users\dilip\.ssh\oci_vm
+C:\Users\dilip\.ssh\oci_vm.pub
+---------------------------------------------------------------------------------------------
+In compute.tf: 
+metadata = {
+  ssh_authorized_keys = file("C:/Users/dilip/.ssh/oci_vm.pub")
+}
+
+ssh into instance:
+ssh -i C:\Users\dilip\.ssh\oci_vm opc@<public_ip>
+
+Keep OCI API keys in ~/.oci
+Keep SSH keys in ~/.ssh
