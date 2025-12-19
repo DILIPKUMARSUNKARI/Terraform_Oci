@@ -1,0 +1,6 @@
+tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaamfoedu4tzc7d5nnvd6epjey64j26bc5uqdjxoiqro774bjgb2xoq"
+user_ocid        = "ocid1.user.oc1..aaaaaaaa7m5dx7vlxsezy7lqatrdkotyw7hjy236j27zfmzzzcunf5d7oyja"
+compartment_ocid = "ocid1.compartment.oc1..aaaaaaaatrgrzlrcz3pxjdo6zvixtl7khxush7hmmfjxybneeodk3rbblsvq"
+region           = "ap-hyderabad-1"
+shape            = "VM.Standard.E2.1.Micro"
+image_id         = "ocid1.image.oc1.ap-hyderabad-1.aaaaaaaasujr5npyxygi4qsyrzpd33o4pujvcofmuhkxmyyvdmz33nlkac4q"
